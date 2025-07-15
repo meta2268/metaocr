@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OCR Upload & Convert</title>
+    <style>
+        .ocr-output { width: 45%; float: left; margin-right: 5%; }
+        .clearfix { clear: both; }
+    </style>
+</head>
+<body>
+    <h1>Upload a file for OCR</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" required>
+        <br>
+        <label>OCR Engine:</label>
+        <select name="ocr_method">
+            <option value="easyocr" {% if ocr_method == "easyocr" %}selected{% endif %}>EasyOCR</option>
+            <option value="tesseract" {% if ocr_method == "tesseract" %}selected{% endif %}>Tesseract</option>
+        </select>
+        <br>
+        <label>Save as:</label>
+        <select name="save_format">
+            <option value="txt" {% if save_format == "txt" %}selected{% endif %}>TXT</option>
+            <option value="docx" {% if save_format == "docx" %}selected{% endif %}>DOCX</option>
+            <option value="pdf" {% if save_format == "pdf" %}selected{% endif %}>PDF</option>
+        </select>
+        <br>
+        <input type="submit" value="Upload & Convert">
+    </form>
+    {% if filename %}
+        <p>Uploaded: {{ filename }}</p>
+        <div class="ocr-output">
+            <h2>EasyOCR Result</h2>
+            <pre>{{ easyocr_text }}</pre>
+        </div>
+        <div class="ocr-output">
+            <h2>Tesseract Result</h2>
+            <pre>{{ tesseract_text }}</pre>
+        </div>
+        <div class="clearfix"></div>
+        {% if download_url %}
+        <a href="{{ download_url }}">Download Result</a>
+        {% endif %}
+    {% endif %}
+</body>
+</html>
